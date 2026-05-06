@@ -28,7 +28,6 @@ public sealed class JsonSchemaValidator
 		{
 			OutputFormat = OutputFormat.List
 		};
-
 		return schema.Evaluate(instance, options);
 	}
 }
