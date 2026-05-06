@@ -51,6 +51,7 @@ public class ValidationApplicationTests
 		{
 			var app = CreateApplication();
 			var args = CommandLineArguments.Valid(jsonFilePath, schemaFilePath);
+			var persistedPath = BuildPersistedResultPath(jsonFilePath);
 
 			using var consoleCapture = new ConsoleOutputCapture();
 			var exitCode = await app.RunAsync(args);
@@ -58,10 +59,13 @@ public class ValidationApplicationTests
 
 			Assert.Equal(0, exitCode);
 			Assert.Contains("Validation succeeded", output);
+			Assert.Contains("Elapsed time (validation to persistence)", output);
+			Assert.True(File.Exists(persistedPath));
 		}
 		finally
 		{
 			File.Delete(schemaFilePath);
+			DeletePersistedFileIfExists(jsonFilePath);
 			File.Delete(jsonFilePath);
 		}
 	}
@@ -79,6 +83,7 @@ public class ValidationApplicationTests
 		{
 			var app = CreateApplication();
 			var args = CommandLineArguments.Valid(jsonFilePath, schemaFilePath);
+			var persistedPath = BuildPersistedResultPath(jsonFilePath);
 
 			using var consoleCapture = new ConsoleOutputCapture();
 			var exitCode = await app.RunAsync(args);
@@ -87,10 +92,13 @@ public class ValidationApplicationTests
 			Assert.Equal(1, exitCode);
 			Assert.Contains("Validation failed", output);
 			Assert.Contains("- ", output);
+			Assert.Contains("Elapsed time (validation to persistence)", output);
+			Assert.True(File.Exists(persistedPath));
 		}
 		finally
 		{
 			File.Delete(schemaFilePath);
+			DeletePersistedFileIfExists(jsonFilePath);
 			File.Delete(jsonFilePath);
 		}
 	}
@@ -105,6 +113,22 @@ public class ValidationApplicationTests
 		var path = Path.Combine(Path.GetTempPath(), $"ElectricTruckJsonValidatorTests-{Guid.NewGuid():N}.json");
 		File.WriteAllText(path, content);
 		return path;
+	}
+
+	private static string BuildPersistedResultPath(string jsonFilePath)
+	{
+		var directory = Path.GetDirectoryName(jsonFilePath) ?? Environment.CurrentDirectory;
+		var fileName = Path.GetFileNameWithoutExtension(jsonFilePath);
+		return Path.Combine(directory, $"{fileName}.validation-result.json");
+	}
+
+	private static void DeletePersistedFileIfExists(string jsonFilePath)
+	{
+		var path = BuildPersistedResultPath(jsonFilePath);
+		if (File.Exists(path))
+		{
+			File.Delete(path);
+		}
 	}
 
 	private sealed class ConsoleOutputCapture : IDisposable

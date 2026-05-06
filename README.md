@@ -48,6 +48,14 @@ dotnet test JasonValidationForElectricTrucks.sln
 
 - Success: `Validation succeeded: JSON is valid against the schema.`
 - Failure: `Validation failed: JSON does not match the schema.` and a list of issues.
+- Persistence: `Validation result persisted to: <path>`
+- Timing: `Elapsed time (validation to persistence): <milliseconds> ms`
+
+After each validation run, the app also serializes a result file next to the input JSON:
+
+- `<input-file-name>.validation-result.json`
+
+The file includes validation status, input paths, persistence timestamp, and collected issues.
 
 ## Command-line contract
 
