@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mihlobil\\source\\repos\\JasonValidationForElectricTrucks\\ElectricTruckJsonValidator.csproj": {}
+    "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\ElectricTruckJsonValidator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mihlobil\\source\\repos\\JasonValidationForElectricTrucks\\ElectricTruckJsonValidator.csproj": {
+    "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\ElectricTruckJsonValidator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mihlobil\\source\\repos\\JasonValidationForElectricTrucks\\ElectricTruckJsonValidator.csproj",
+        "projectUniqueName": "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\ElectricTruckJsonValidator.csproj",
         "projectName": "ElectricTruckJsonValidator",
-        "projectPath": "C:\\Users\\mihlobil\\source\\repos\\JasonValidationForElectricTrucks\\ElectricTruckJsonValidator.csproj",
+        "projectPath": "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\ElectricTruckJsonValidator.csproj",
         "packagesPath": "C:\\Users\\mihlobil\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mihlobil\\source\\repos\\JasonValidationForElectricTrucks\\obj\\",
+        "outputPath": "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
