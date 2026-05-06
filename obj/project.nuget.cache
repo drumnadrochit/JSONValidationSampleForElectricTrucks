@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "mK8JBHBYvyE=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\mihlobil\\source\\repos\\JasonValidationForElectricTrucks\\ElectricTruckJsonValidator.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\mihlobil\\.nuget\\packages\\humanizer.core\\3.0.10\\humanizer.core.3.0.10.nupkg.sha512",
+    "C:\\Users\\mihlobil\\.nuget\\packages\\json.more.net\\3.0.1\\json.more.net.3.0.1.nupkg.sha512",
+    "C:\\Users\\mihlobil\\.nuget\\packages\\jsonpointer.net\\7.0.1\\jsonpointer.net.7.0.1.nupkg.sha512",
+    "C:\\Users\\mihlobil\\.nuget\\packages\\jsonschema.net\\9.2.0\\jsonschema.net.9.2.0.nupkg.sha512"
+  ],
+  "logs": []
+}

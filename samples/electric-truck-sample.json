@@ -1,0 +1,124 @@
+{
+  "fleetId": "FLEET-EU-042",
+  "truck": {
+    "truckId": "TRK-9001",
+    "vin": "WDB9023011A123456",
+    "manufacturer": "VoltHaul Motors",
+    "model": "EHX LongRange",
+    "manufacturingYear": 2025,
+    "isAutonomousReady": true,
+    "decommissionedAt": null,
+    "grossVehicleWeightKg": 36000.5,
+    "battery": {
+      "capacityKwh": 825.75,
+      "stateOfChargePct": 74.5,
+      "packChemistry": "LFP",
+      "cellVoltages": [3.65, 3.66, 3.64, 3.67],
+      "temperatureMatrixC": [
+        [21.2, 21.5, 21.8],
+        [22.0, 22.1, 22.3],
+        [22.4, 22.6, 22.7]
+      ]
+    },
+    "dimensions": {
+      "lengthM": 12.2,
+      "widthM": 2.55,
+      "heightM": 3.95
+    },
+    "axleLoads": [
+      {
+        "axle": 1,
+        "loadKg": 6200.3,
+        "tirePressuresPsi": [104, 103, 104, 102]
+      },
+      {
+        "axle": 2,
+        "loadKg": 7400.8,
+        "tirePressuresPsi": [108, 109, 108, 107]
+      },
+      {
+        "axle": 3,
+        "loadKg": 7050.1,
+        "tirePressuresPsi": [106, 105, 106, 105]
+      }
+    ],
+    "tags": ["long-haul", "cold-chain", "priority-route"],
+    "ecoModes": [
+      {
+        "modeName": "city",
+        "maxSpeedKph": 70,
+        "regenLevel": 4
+      },
+      {
+        "modeName": "highway",
+        "maxSpeedKph": 95,
+        "regenLevel": 2
+      }
+    ]
+  },
+  "telematics": {
+    "timestampUtc": "2026-05-06T14:35:21Z",
+    "location": {
+      "lat": 48.2082,
+      "lon": 16.3738,
+      "altitudeM": 171
+    },
+    "speedKph": 68.4,
+    "odometerKm": 186452.9,
+    "activeFaultCodes": ["BMS-WARN-12", "INV-INFO-07"],
+    "driver": {
+      "driverId": "DRV-112",
+      "name": "Maya Novak",
+      "hoursDrivenToday": 6.25,
+      "isHazmatCertified": false
+    }
+  },
+  "routes": [
+    {
+      "routeId": "RT-AT-778",
+      "stops": [
+        {
+          "sequence": 1,
+          "siteCode": "VIE-DC-01",
+          "scheduledArrivalUtc": "2026-05-06T15:10:00Z",
+          "payload": {
+            "totalMassKg": 13120,
+            "containers": [
+              { "containerId": "C-01", "contentType": "food", "temperatureSetpointC": -2.0 },
+              { "containerId": "C-02", "contentType": "pharma", "temperatureSetpointC": 5.0 }
+            ]
+          }
+        },
+        {
+          "sequence": 2,
+          "siteCode": "LNZ-DC-03",
+          "scheduledArrivalUtc": "2026-05-06T18:20:00Z",
+          "payload": {
+            "totalMassKg": 9800,
+            "containers": [
+              { "containerId": "C-03", "contentType": "electronics", "temperatureSetpointC": null }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "maintenance": {
+    "lastServiceDate": "2026-04-20",
+    "nextServiceDueKm": 190000,
+    "tasks": [
+      {
+        "taskCode": "BRAKE_CHECK",
+        "priority": 2,
+        "completed": true,
+        "notes": "Pads replaced on axle 2"
+      },
+      {
+        "taskCode": "COOLANT_LOOP_INSPECTION",
+        "priority": 1,
+        "completed": false,
+        "notes": ""
+      }
+    ]
+  }
+}
