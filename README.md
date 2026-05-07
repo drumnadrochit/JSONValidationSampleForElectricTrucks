@@ -65,12 +65,35 @@ The solution contains three application types:
 - Select validation nodes using round-robin distribution
 - Dispatch validations concurrently
 - Aggregate node responses into one distributed result
+- Apply a node failure policy so one failing node does not abort the whole request
 
 ### Validation node responsibilities
 
 - Accept JSON and schema text over HTTP
 - Evaluate the JSON document against the schema
 - Return validity, issues, duration, and node identity
+- Reuse parsed schemas via in-memory cache to reduce repeated parse overhead
+
+## SOLID-oriented design
+
+The microservice layer is now structured around interfaces and focused services:
+
+- `IDistributedValidationCoordinator`: orchestration boundary for distributed calls
+- `INodeSelector`: node selection strategy abstraction
+- `INodeFailurePolicy`: failure handling strategy abstraction
+- `IValidationNodeClient`: transport abstraction for worker-node HTTP calls
+- `IValidationService`: validation engine abstraction in the worker node
+- `ISchemaCache`: schema caching abstraction in the worker node
+- `INodeIdentityProvider`: runtime node identity abstraction
+
+Current concrete implementations:
+
+- Round-robin selection: `RoundRobinNodeSelector`
+- Continue-on-failure strategy: `ContinueOnNodeFailurePolicy`
+- HTTP transport client: `ValidationNodeHttpClient`
+- JsonSchema.Net validation service: `JsonSchemaValidationService`
+- In-memory schema cache: `InMemorySchemaCache`
+- Environment/config identity provider: `EnvironmentNodeIdentityProvider`
 
 ## Distributed API contract
 
@@ -88,6 +111,12 @@ Example request:
    "correlationId": "request-001"
 }
 ```
+
+Response behavior:
+
+- `isValid` is `true` only when all node results are valid
+- a node transport/runtime failure is returned as an item in `results` with `isValid: false`
+- `completedValidations` remains equal to requested count because failures are materialized as results
 
 ### Validation node endpoint
 
@@ -126,6 +155,19 @@ curl -X POST http://localhost:8080/distributed-validation \
       "validationCount": 3,
       "correlationId": "demo-run"
    }'
+```
+
+PowerShell example:
+
+```powershell
+$body = @{
+   jsonDocument = '{"fleetId":"fleet-1"}'
+   jsonSchema = '{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["fleetId"],"properties":{"fleetId":{"type":"string"}}}'
+   validationCount = 3
+   correlationId = 'demo-run'
+} | ConvertTo-Json -Depth 4
+
+Invoke-RestMethod -Uri "http://localhost:8080/distributed-validation" -Method Post -ContentType "application/json" -Body $body
 ```
 
 ## Deployment assets
@@ -207,8 +249,23 @@ Main application files:
 
 Microservice files:
 
-- [ControlNode.Api/Program.cs](ControlNode.Api/Program.cs): Control plane API and round-robin distribution
-- [ValidationNode.Api/Program.cs](ValidationNode.Api/Program.cs): Worker API and JSON schema execution
+- [ControlNode.Api/Program.cs](ControlNode.Api/Program.cs): Control API endpoint wiring and DI composition root
+- [ControlNode.Api/Abstractions/IDistributedValidationCoordinator.cs](ControlNode.Api/Abstractions/IDistributedValidationCoordinator.cs)
+- [ControlNode.Api/Abstractions/INodeSelector.cs](ControlNode.Api/Abstractions/INodeSelector.cs)
+- [ControlNode.Api/Abstractions/INodeFailurePolicy.cs](ControlNode.Api/Abstractions/INodeFailurePolicy.cs)
+- [ControlNode.Api/Abstractions/IValidationNodeClient.cs](ControlNode.Api/Abstractions/IValidationNodeClient.cs)
+- [ControlNode.Api/Services/DistributedValidationCoordinator.cs](ControlNode.Api/Services/DistributedValidationCoordinator.cs)
+- [ControlNode.Api/Services/RoundRobinNodeSelector.cs](ControlNode.Api/Services/RoundRobinNodeSelector.cs)
+- [ControlNode.Api/Services/ContinueOnNodeFailurePolicy.cs](ControlNode.Api/Services/ContinueOnNodeFailurePolicy.cs)
+- [ControlNode.Api/Services/ValidationNodeHttpClient.cs](ControlNode.Api/Services/ValidationNodeHttpClient.cs)
+- [ControlNode.Api/Options/ValidationNodeOptions.cs](ControlNode.Api/Options/ValidationNodeOptions.cs)
+- [ValidationNode.Api/Program.cs](ValidationNode.Api/Program.cs): Validation API endpoint wiring and DI composition root
+- [ValidationNode.Api/Abstractions/IValidationService.cs](ValidationNode.Api/Abstractions/IValidationService.cs)
+- [ValidationNode.Api/Abstractions/ISchemaCache.cs](ValidationNode.Api/Abstractions/ISchemaCache.cs)
+- [ValidationNode.Api/Abstractions/INodeIdentityProvider.cs](ValidationNode.Api/Abstractions/INodeIdentityProvider.cs)
+- [ValidationNode.Api/Services/JsonSchemaValidationService.cs](ValidationNode.Api/Services/JsonSchemaValidationService.cs)
+- [ValidationNode.Api/Services/InMemorySchemaCache.cs](ValidationNode.Api/Services/InMemorySchemaCache.cs)
+- [ValidationNode.Api/Services/EnvironmentNodeIdentityProvider.cs](ValidationNode.Api/Services/EnvironmentNodeIdentityProvider.cs)
 - [Validation.Contracts/ValidationModels.cs](Validation.Contracts/ValidationModels.cs): Shared API contracts
 
 Sample assets:
@@ -271,6 +328,13 @@ dotnet build JasonValidationForElectricTrucks.sln
 - Check property types (string vs number, etc.)
 - Ensure formats and min/max constraints match your data
 - Inspect printed error paths to locate the failing field quickly
+
+### docker compose up --build fails
+
+- Confirm Docker Desktop is running and Linux containers mode is enabled
+- Ensure ports (for example `8080`) are not already in use
+- Run `docker compose build --no-cache` to force a clean image build
+- Run `docker compose up --build` again and inspect the first failing service logs
 
 ## CI usage example
 
