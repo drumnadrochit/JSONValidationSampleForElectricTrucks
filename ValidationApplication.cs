@@ -42,8 +42,27 @@ public sealed class ValidationApplication
 		try
 		{
 			var stopwatch = Stopwatch.StartNew();
+
+			if (arguments.ParallelCount == 1)
+			{
+				return await RunSingleValidationAsync(arguments, stopwatch);
+			}
+
+			return await RunParallelValidationsAsync(arguments, stopwatch);
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Validation error: {ex.Message}");
+			return 1;
+		}
+	}
+
+	private async Task<int> RunSingleValidationAsync(CommandLineArguments arguments, Stopwatch stopwatch)
+	{
+		var persistedResultPath = BuildPersistedResultPath(arguments.JsonFilePath);
+		try
+		{
 			var result = await _validator.ValidateAsync(arguments.JsonFilePath, arguments.SchemaFilePath);
-			var persistedResultPath = BuildPersistedResultPath(arguments.JsonFilePath);
 			await PersistResultAsync(result, arguments, persistedResultPath);
 			stopwatch.Stop();
 
@@ -60,11 +79,75 @@ public sealed class ValidationApplication
 			_issuePrinter.Print(result);
 			return 1;
 		}
-		catch (Exception ex)
+		finally
 		{
-			Console.WriteLine($"Validation error: {ex.Message}");
-			return 1;
+			DeleteIfExists(persistedResultPath);
+			Console.WriteLine($"Cleaned serialized result: {persistedResultPath}");
 		}
+	}
+
+	private async Task<int> RunParallelValidationsAsync(CommandLineArguments arguments, Stopwatch stopwatch)
+	{
+		// Load schema once to avoid concurrent registration errors
+		var schema = await _validator.LoadSchemaAsync(arguments.SchemaFilePath);
+
+		var tasks = new List<Task<(int index, EvaluationResults result, string path)>>();
+		(EvaluationResults result, string path)[] completedResults = Array.Empty<(EvaluationResults result, string path)>();
+
+		try
+		{
+			for (int i = 0; i < arguments.ParallelCount; i++)
+			{
+				var index = i;
+				tasks.Add(ValidateAndPersistAsync(index, arguments, schema));
+			}
+
+			var results = await Task.WhenAll(tasks);
+			completedResults = results.Select(r => (r.result, r.path)).ToArray();
+			stopwatch.Stop();
+
+			Console.WriteLine($"\n=== Parallel Validation Summary (Run count: {arguments.ParallelCount}) ===");
+			Console.WriteLine($"Elapsed time (all validations to persistence): {stopwatch.Elapsed.TotalMilliseconds:F2} ms");
+
+			var allValid = true;
+			var firstResult = results[0].result;
+
+			foreach (var (index, result, path) in results)
+			{
+				var status = result.IsValid ? "✓ PASS" : "✗ FAIL";
+				Console.WriteLine($"  Run {index + 1}: {status} - {path}");
+				if (!result.IsValid)
+				{
+					allValid = false;
+				}
+			}
+
+			if (!allValid)
+			{
+				Console.WriteLine("\nValidation failed: At least one run did not match the schema.");
+				_issuePrinter.Print(firstResult);
+				return 1;
+			}
+
+			Console.WriteLine("\nValidation succeeded: All parallel runs passed.");
+			return 0;
+		}
+		finally
+		{
+			foreach (var (_, path) in completedResults)
+			{
+				DeleteIfExists(path);
+				Console.WriteLine($"Cleaned serialized result: {path}");
+			}
+		}
+	}
+
+	private async Task<(int index, EvaluationResults result, string path)> ValidateAndPersistAsync(int index, CommandLineArguments arguments, JsonSchema schema)
+	{
+		var result = await _validator.ValidateAsync(arguments.JsonFilePath, schema);
+		var persistedResultPath = BuildPersistedResultPathForParallel(arguments.JsonFilePath, index);
+		await PersistResultAsync(result, arguments, persistedResultPath);
+		return (index, result, persistedResultPath);
 	}
 
 	private static string BuildPersistedResultPath(string jsonFilePath)
@@ -72,6 +155,13 @@ public sealed class ValidationApplication
 		var directory = Path.GetDirectoryName(jsonFilePath) ?? Environment.CurrentDirectory;
 		var fileName = Path.GetFileNameWithoutExtension(jsonFilePath);
 		return Path.Combine(directory, $"{fileName}.validation-result.json");
+	}
+
+	private static string BuildPersistedResultPathForParallel(string jsonFilePath, int runIndex)
+	{
+		var directory = Path.GetDirectoryName(jsonFilePath) ?? Environment.CurrentDirectory;
+		var fileName = Path.GetFileNameWithoutExtension(jsonFilePath);
+		return Path.Combine(directory, $"{fileName}.validation-result.run-{runIndex + 1:D3}.json");
 	}
 
 	private static async Task PersistResultAsync(EvaluationResults result, CommandLineArguments arguments, string outputPath)
@@ -88,6 +178,14 @@ public sealed class ValidationApplication
 		{
 			WriteIndented = true
 		});
+	}
+
+	private static void DeleteIfExists(string path)
+	{
+		if (File.Exists(path))
+		{
+			File.Delete(path);
+		}
 	}
 
 	private static List<string> CollectIssues(EvaluationResults results)

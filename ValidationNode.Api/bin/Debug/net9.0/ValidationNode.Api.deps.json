@@ -1,0 +1,141 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "ValidationNode.Api/1.0.0": {
+        "dependencies": {
+          "JsonSchema.Net": "9.2.0",
+          "Microsoft.AspNetCore.OpenApi": "9.0.15",
+          "Validation.Contracts": "1.0.0"
+        },
+        "runtime": {
+          "ValidationNode.Api.dll": {}
+        }
+      },
+      "Humanizer.Core/3.0.10": {
+        "runtime": {
+          "lib/net8.0/Humanizer.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.10.37104"
+          }
+        }
+      },
+      "Json.More.Net/3.0.1": {
+        "runtime": {
+          "lib/net9.0/Json.More.dll": {
+            "assemblyVersion": "3.0.0.0",
+            "fileVersion": "3.0.1.0"
+          }
+        }
+      },
+      "JsonPointer.Net/7.0.1": {
+        "dependencies": {
+          "Humanizer.Core": "3.0.10",
+          "Json.More.Net": "3.0.1"
+        },
+        "runtime": {
+          "lib/net9.0/JsonPointer.Net.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.1.0"
+          }
+        }
+      },
+      "JsonSchema.Net/9.2.0": {
+        "dependencies": {
+          "JsonPointer.Net": "7.0.1"
+        },
+        "runtime": {
+          "lib/net9.0/JsonSchema.Net.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.2.0.0"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.OpenApi/9.0.15": {
+        "dependencies": {
+          "Microsoft.OpenApi": "1.6.17"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll": {
+            "assemblyVersion": "9.0.15.0",
+            "fileVersion": "9.0.1526.17607"
+          }
+        }
+      },
+      "Microsoft.OpenApi/1.6.17": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
+            "assemblyVersion": "1.6.17.0",
+            "fileVersion": "1.6.17.0"
+          }
+        }
+      },
+      "Validation.Contracts/1.0.0": {
+        "runtime": {
+          "Validation.Contracts.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ValidationNode.Api/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Humanizer.Core/3.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yZIhtw8sYuvsONzQbZxWpR60tMWYHXoo0DL6nyOqSFiU5POjBTSEyWFpTQtJEZuy+oqiYTXKXY/Mjx7KnqIQFw==",
+      "path": "humanizer.core/3.0.10",
+      "hashPath": "humanizer.core.3.0.10.nupkg.sha512"
+    },
+    "Json.More.Net/3.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fRctF2J2SILYG6wqP21drmeEODmCVkVQ/b3MndDu2fT1swfySyUgq7ePCk+aENGlDcIm05fyfjh9vcuqDEfv3w==",
+      "path": "json.more.net/3.0.1",
+      "hashPath": "json.more.net.3.0.1.nupkg.sha512"
+    },
+    "JsonPointer.Net/7.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5C497yxfktYFsqxKG+GUQPsMvBqIjzLkqtDEdMGsnBpl3/OB8DOvTo7LEyRX7AVc1kVVj0IX5zhmLrlbvAYEnw==",
+      "path": "jsonpointer.net/7.0.1",
+      "hashPath": "jsonpointer.net.7.0.1.nupkg.sha512"
+    },
+    "JsonSchema.Net/9.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pc1hr16zNQSxVsOSIYWliE3rtl5E4MwRXReflPf60l5tSvzMfl65eJV6M+iPXhZ2Ui5o078LJ2pS9O1o5ZT1zQ==",
+      "path": "jsonschema.net/9.2.0",
+      "hashPath": "jsonschema.net.9.2.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.OpenApi/9.0.15": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-QQW4lLEgMMgVSAlTocaoEf5xZstKZFLyIYtrRP/bq3BmvsJkU8ugiU7MaUWz4vEednZLNhGq1JSZq22QFQqIfg==",
+      "path": "microsoft.aspnetcore.openapi/9.0.15",
+      "hashPath": "microsoft.aspnetcore.openapi.9.0.15.nupkg.sha512"
+    },
+    "Microsoft.OpenApi/1.6.17": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Le+kehlmrlQfuDFUt1zZ2dVwrhFQtKREdKBo+rexOwaCoYP0/qpgT9tLxCsZjsgR5Itk1UKPcbgO+FyaNid/bA==",
+      "path": "microsoft.openapi/1.6.17",
+      "hashPath": "microsoft.openapi.1.6.17.nupkg.sha512"
+    },
+    "Validation.Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

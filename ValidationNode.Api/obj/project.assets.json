@@ -1,0 +1,333 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "Humanizer.Core/3.0.10": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Humanizer.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Humanizer.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/Humanizer.Core.targets": {}
+        }
+      },
+      "Json.More.Net/3.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/Json.More.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Json.More.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "JsonPointer.Net/7.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Humanizer.Core": "3.0.10",
+          "Json.More.Net": "3.0.1"
+        },
+        "compile": {
+          "lib/net9.0/JsonPointer.Net.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/JsonPointer.Net.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "JsonSchema.Net/9.2.0": {
+        "type": "package",
+        "dependencies": {
+          "JsonPointer.Net": "7.0.1"
+        },
+        "compile": {
+          "lib/net9.0/JsonSchema.Net.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/JsonSchema.Net.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.OpenApi/9.0.15": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.OpenApi": "1.6.17"
+        },
+        "compile": {
+          "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
+      "Microsoft.OpenApi/1.6.17": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.OpenApi.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Validation.Contracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/Validation.Contracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Validation.Contracts.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Humanizer.Core/3.0.10": {
+      "sha512": "yZIhtw8sYuvsONzQbZxWpR60tMWYHXoo0DL6nyOqSFiU5POjBTSEyWFpTQtJEZuy+oqiYTXKXY/Mjx7KnqIQFw==",
+      "type": "package",
+      "path": "humanizer.core/3.0.10",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/roslyn3.8/cs/Humanizer.Analyzers.dll",
+        "analyzers/dotnet/roslyn4.14/cs/Humanizer.Analyzers.dll",
+        "analyzers/dotnet/roslyn4.8/cs/Humanizer.Analyzers.dll",
+        "buildTransitive/Humanizer.Core.targets",
+        "humanizer.core.3.0.10.nupkg.sha512",
+        "humanizer.core.nuspec",
+        "lib/net10.0/Humanizer.dll",
+        "lib/net10.0/Humanizer.xml",
+        "lib/net48/Humanizer.dll",
+        "lib/net48/Humanizer.xml",
+        "lib/net8.0/Humanizer.dll",
+        "lib/net8.0/Humanizer.xml",
+        "lib/netstandard2.0/Humanizer.dll",
+        "lib/netstandard2.0/Humanizer.xml",
+        "logo.png"
+      ]
+    },
+    "Json.More.Net/3.0.1": {
+      "sha512": "fRctF2J2SILYG6wqP21drmeEODmCVkVQ/b3MndDu2fT1swfySyUgq7ePCk+aENGlDcIm05fyfjh9vcuqDEfv3w==",
+      "type": "package",
+      "path": "json.more.net/3.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "OSMFEULA.txt",
+        "README.md",
+        "json-logo-256.png",
+        "json.more.net.3.0.1.nupkg.sha512",
+        "json.more.net.nuspec",
+        "lib/net10.0/Json.More.dll",
+        "lib/net10.0/Json.More.xml",
+        "lib/net8.0/Json.More.dll",
+        "lib/net8.0/Json.More.xml",
+        "lib/net9.0/Json.More.dll",
+        "lib/net9.0/Json.More.xml",
+        "lib/netstandard2.0/Json.More.dll",
+        "lib/netstandard2.0/Json.More.xml"
+      ]
+    },
+    "JsonPointer.Net/7.0.1": {
+      "sha512": "5C497yxfktYFsqxKG+GUQPsMvBqIjzLkqtDEdMGsnBpl3/OB8DOvTo7LEyRX7AVc1kVVj0IX5zhmLrlbvAYEnw==",
+      "type": "package",
+      "path": "jsonpointer.net/7.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "OSMFEULA.txt",
+        "README.md",
+        "json-logo-256.png",
+        "jsonpointer.net.7.0.1.nupkg.sha512",
+        "jsonpointer.net.nuspec",
+        "lib/net10.0/JsonPointer.Net.dll",
+        "lib/net10.0/JsonPointer.Net.xml",
+        "lib/net8.0/JsonPointer.Net.dll",
+        "lib/net8.0/JsonPointer.Net.xml",
+        "lib/net9.0/JsonPointer.Net.dll",
+        "lib/net9.0/JsonPointer.Net.xml",
+        "lib/netstandard2.0/JsonPointer.Net.dll",
+        "lib/netstandard2.0/JsonPointer.Net.xml"
+      ]
+    },
+    "JsonSchema.Net/9.2.0": {
+      "sha512": "pc1hr16zNQSxVsOSIYWliE3rtl5E4MwRXReflPf60l5tSvzMfl65eJV6M+iPXhZ2Ui5o078LJ2pS9O1o5ZT1zQ==",
+      "type": "package",
+      "path": "jsonschema.net/9.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "OSMFEULA.txt",
+        "README.md",
+        "json-logo-256.png",
+        "jsonschema.net.9.2.0.nupkg.sha512",
+        "jsonschema.net.nuspec",
+        "lib/net8.0/JsonSchema.Net.dll",
+        "lib/net8.0/JsonSchema.Net.pdb",
+        "lib/net8.0/JsonSchema.Net.xml",
+        "lib/net9.0/JsonSchema.Net.dll",
+        "lib/net9.0/JsonSchema.Net.pdb",
+        "lib/net9.0/JsonSchema.Net.xml",
+        "lib/netstandard2.0/JsonSchema.Net.dll",
+        "lib/netstandard2.0/JsonSchema.Net.pdb",
+        "lib/netstandard2.0/JsonSchema.Net.xml"
+      ]
+    },
+    "Microsoft.AspNetCore.OpenApi/9.0.15": {
+      "sha512": "QQW4lLEgMMgVSAlTocaoEf5xZstKZFLyIYtrRP/bq3BmvsJkU8ugiU7MaUWz4vEednZLNhGq1JSZq22QFQqIfg==",
+      "type": "package",
+      "path": "microsoft.aspnetcore.openapi/9.0.15",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/net9.0/Microsoft.AspNetCore.OpenApi.dll",
+        "lib/net9.0/Microsoft.AspNetCore.OpenApi.xml",
+        "microsoft.aspnetcore.openapi.9.0.15.nupkg.sha512",
+        "microsoft.aspnetcore.openapi.nuspec"
+      ]
+    },
+    "Microsoft.OpenApi/1.6.17": {
+      "sha512": "Le+kehlmrlQfuDFUt1zZ2dVwrhFQtKREdKBo+rexOwaCoYP0/qpgT9tLxCsZjsgR5Itk1UKPcbgO+FyaNid/bA==",
+      "type": "package",
+      "path": "microsoft.openapi/1.6.17",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/netstandard2.0/Microsoft.OpenApi.dll",
+        "lib/netstandard2.0/Microsoft.OpenApi.pdb",
+        "lib/netstandard2.0/Microsoft.OpenApi.xml",
+        "microsoft.openapi.1.6.17.nupkg.sha512",
+        "microsoft.openapi.nuspec"
+      ]
+    },
+    "Validation.Contracts/1.0.0": {
+      "type": "project",
+      "path": "../Validation.Contracts/Validation.Contracts.csproj",
+      "msbuildProject": "../Validation.Contracts/Validation.Contracts.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "JsonSchema.Net >= 9.2.0",
+      "Microsoft.AspNetCore.OpenApi >= 9.0.15",
+      "Validation.Contracts >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\mihlobil\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\ValidationNode.Api\\ValidationNode.Api.csproj",
+      "projectName": "ValidationNode.Api",
+      "projectPath": "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\ValidationNode.Api\\ValidationNode.Api.csproj",
+      "packagesPath": "C:\\Users\\mihlobil\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\ValidationNode.Api\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\mihlobil\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {
+            "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\Validation.Contracts\\Validation.Contracts.csproj": {
+              "projectPath": "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\Validation.Contracts\\Validation.Contracts.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "dependencies": {
+          "JsonSchema.Net": {
+            "target": "Package",
+            "version": "[9.2.0, )"
+          },
+          "Microsoft.AspNetCore.OpenApi": {
+            "target": "Package",
+            "version": "[9.0.15, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.313/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

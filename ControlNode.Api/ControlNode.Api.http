@@ -1,0 +1,6 @@
+@ControlNode.Api_HostAddress = http://localhost:5078
+
+GET {{ControlNode.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

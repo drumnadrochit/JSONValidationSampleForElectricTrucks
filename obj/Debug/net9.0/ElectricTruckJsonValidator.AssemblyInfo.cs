@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ElectricTruckJsonValidator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10c0551c6046992c6109dce62fe7ff647bb0e7fe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5801ea115b92fb0c06988464e92a3ec2a33c2080")]
 [assembly: System.Reflection.AssemblyProductAttribute("ElectricTruckJsonValidator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ElectricTruckJsonValidator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

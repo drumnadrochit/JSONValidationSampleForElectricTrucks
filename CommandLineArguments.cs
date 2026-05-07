@@ -5,10 +5,11 @@ namespace ElectricTruckJsonValidator;
 /// </summary>
 public sealed class CommandLineArguments
 {
-	private CommandLineArguments(string jsonFilePath, string schemaFilePath, bool isValid, IReadOnlyList<string> messages)
+	private CommandLineArguments(string jsonFilePath, string schemaFilePath, int parallelCount, bool isValid, IReadOnlyList<string> messages)
 	{
 		JsonFilePath = jsonFilePath;
 		SchemaFilePath = schemaFilePath;
+		ParallelCount = parallelCount;
 		IsValid = isValid;
 		Messages = messages;
 	}
@@ -24,6 +25,11 @@ public sealed class CommandLineArguments
 	public string SchemaFilePath { get; }
 
 	/// <summary>
+	/// Gets the number of parallel validation and serialization runs (default: 1).
+	/// </summary>
+	public int ParallelCount { get; }
+
+	/// <summary>
 	/// Gets a value indicating whether parsing produced usable arguments.
 	/// </summary>
 	public bool IsValid { get; }
@@ -36,9 +42,9 @@ public sealed class CommandLineArguments
 	/// <summary>
 	/// Creates a valid argument instance.
 	/// </summary>
-	public static CommandLineArguments Valid(string jsonFilePath, string schemaFilePath)
+	public static CommandLineArguments Valid(string jsonFilePath, string schemaFilePath, int parallelCount = 1)
 	{
-		return new CommandLineArguments(jsonFilePath, schemaFilePath, true, Array.Empty<string>());
+		return new CommandLineArguments(jsonFilePath, schemaFilePath, parallelCount, true, Array.Empty<string>());
 	}
 
 	/// <summary>
@@ -46,6 +52,6 @@ public sealed class CommandLineArguments
 	/// </summary>
 	public static CommandLineArguments Invalid(IReadOnlyList<string> messages)
 	{
-		return new CommandLineArguments(string.Empty, string.Empty, false, messages);
+		return new CommandLineArguments(string.Empty, string.Empty, 1, false, messages);
 	}
 }

@@ -1,0 +1,12 @@
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\bin\Debug\net9.0\Validation.Contracts.deps.json
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\bin\Debug\net9.0\Validation.Contracts.dll
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\bin\Debug\net9.0\Validation.Contracts.pdb
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\obj\Debug\net9.0\Validation.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\obj\Debug\net9.0\Validation.Contracts.AssemblyInfoInputs.cache
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\obj\Debug\net9.0\Validation.Contracts.AssemblyInfo.cs
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\obj\Debug\net9.0\Validation.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\obj\Debug\net9.0\Validation.Contracts.sourcelink.json
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\obj\Debug\net9.0\Validation.Contracts.dll
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\obj\Debug\net9.0\refint\Validation.Contracts.dll
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\obj\Debug\net9.0\Validation.Contracts.pdb
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\Validation.Contracts\obj\Debug\net9.0\ref\Validation.Contracts.dll

@@ -13,7 +13,13 @@
 
   <ItemGroup>
     <Compile Remove="ElectricTruckJsonValidator.Tests\**\*.cs" />
+    <Compile Remove="ControlNode.Api\**\*.cs" />
+    <Compile Remove="ValidationNode.Api\**\*.cs" />
+    <Compile Remove="Validation.Contracts\**\*.cs" />
     <None Remove="ElectricTruckJsonValidator.Tests\**\*" />
+    <None Remove="ControlNode.Api\**\*" />
+    <None Remove="ValidationNode.Api\**\*" />
+    <None Remove="Validation.Contracts\**\*" />
   </ItemGroup>
 
 </Project>

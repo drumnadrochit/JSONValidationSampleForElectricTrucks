@@ -1,0 +1,6 @@
+@ValidationNode.Api_HostAddress = http://localhost:5002
+
+GET {{ValidationNode.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
