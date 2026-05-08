@@ -10,14 +10,19 @@ public sealed class ValidationApplication
 {
 	private readonly JsonSchemaValidator _validator;
 	private readonly EvaluationIssuePrinter _issuePrinter;
+	private readonly ElectricTruckPolymorphicDeserializer _polymorphicDeserializer;
 
 	/// <summary>
 	/// Creates an application coordinator with explicit dependencies.
 	/// </summary>
-	public ValidationApplication(JsonSchemaValidator validator, EvaluationIssuePrinter issuePrinter)
+	public ValidationApplication(
+		JsonSchemaValidator validator,
+		EvaluationIssuePrinter issuePrinter,
+		ElectricTruckPolymorphicDeserializer? polymorphicDeserializer = null)
 	{
 		_validator = validator;
 		_issuePrinter = issuePrinter;
+		_polymorphicDeserializer = polymorphicDeserializer ?? new ElectricTruckPolymorphicDeserializer();
 	}
 
 	/// <summary>
@@ -64,20 +69,34 @@ public sealed class ValidationApplication
 		{
 			var result = await _validator.ValidateAsync(arguments.JsonFilePath, arguments.SchemaFilePath);
 			await PersistResultAsync(result, arguments, persistedResultPath);
+
+			if (!result.IsValid)
+			{
+				stopwatch.Stop();
+				Console.WriteLine($"Validation result persisted to: {persistedResultPath}");
+				Console.WriteLine($"Elapsed time (validation to persistence): {stopwatch.Elapsed.TotalMilliseconds:F2} ms");
+				Console.WriteLine("Validation failed: JSON does not match the schema.");
+				_issuePrinter.Print(result);
+				return 1;
+			}
+
+			var (isSuccess, summaryOrError) = await _polymorphicDeserializer.DeserializeAndSummarizeAsync(arguments.JsonFilePath);
+			if (!isSuccess)
+			{
+				stopwatch.Stop();
+				Console.WriteLine($"Validation result persisted to: {persistedResultPath}");
+				Console.WriteLine($"Elapsed time (validation to persistence): {stopwatch.Elapsed.TotalMilliseconds:F2} ms");
+				Console.WriteLine(summaryOrError);
+				return 1;
+			}
+
 			stopwatch.Stop();
 
 			Console.WriteLine($"Validation result persisted to: {persistedResultPath}");
 			Console.WriteLine($"Elapsed time (validation to persistence): {stopwatch.Elapsed.TotalMilliseconds:F2} ms");
-
-			if (result.IsValid)
-			{
-				Console.WriteLine("Validation succeeded: JSON is valid against the schema.");
-				return 0;
-			}
-
-			Console.WriteLine("Validation failed: JSON does not match the schema.");
-			_issuePrinter.Print(result);
-			return 1;
+			Console.WriteLine(summaryOrError);
+			Console.WriteLine("Validation succeeded: JSON is valid against the schema.");
+			return 0;
 		}
 		finally
 		{
@@ -129,7 +148,15 @@ public sealed class ValidationApplication
 				return 1;
 			}
 
+			var (isSuccess, summaryOrError) = await _polymorphicDeserializer.DeserializeAndSummarizeAsync(arguments.JsonFilePath);
+			if (!isSuccess)
+			{
+				Console.WriteLine($"\n{summaryOrError}");
+				return 1;
+			}
+
 			Console.WriteLine("\nValidation succeeded: All parallel runs passed.");
+			Console.WriteLine(summaryOrError);
 			return 0;
 		}
 		finally

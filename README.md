@@ -12,6 +12,7 @@ This project is intentionally small and focused. It provides a clean example of:
 - Parsing command-line input
 - Validating input and schema files
 - Evaluating JSON with JsonSchema.Net
+- Polymorphic deserialization of maintenance tasks with System.Text.Json
 - Returning process-friendly exit codes for scripts/CI
 - Unit-testing console application logic
 - Running validation as distributed HTTP microservices
@@ -305,6 +306,17 @@ Test project:
 ## JSON schema engine
 
 This app uses JsonSchema.Net (package JsonSchema.Net, currently 9.2.0) and evaluates with list output mode so failures can be presented as a readable issue list.
+
+## Polymorphic deserialization
+
+After schema validation succeeds, the CLI now performs typed polymorphic deserialization of `maintenance.tasks` using `System.Text.Json` discriminators:
+
+- Discriminator property: `taskType`
+- Supported derived task types:
+   - `BRAKE_CHECK` -> `BrakeCheckTask`
+   - `COOLANT_LOOP_INSPECTION` -> `CoolantLoopInspectionTask`
+
+The app prints a summary such as `BrakeCheckTask=1, CoolantLoopInspectionTask=1`.
 
 ## Troubleshooting
 

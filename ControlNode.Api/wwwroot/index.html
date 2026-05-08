@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Control Node UI</title>
+  <style>
+    :root {
+      --bg-top: #f2f6ff;
+      --bg-bottom: #fff4e9;
+      --panel: #ffffff;
+      --ink: #1f2937;
+      --muted: #64748b;
+      --accent: #0f766e;
+      --accent-2: #0ea5e9;
+      --border: #dbe4f0;
+      --danger: #b91c1c;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Noto Sans", Tahoma, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(120deg, var(--bg-top), var(--bg-bottom));
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .shell {
+      max-width: 980px;
+      margin: 0 auto;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.09);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(90deg, #ecfeff, #eff6ff);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+
+    .header p {
+      margin: 6px 0 0;
+      color: var(--muted);
+    }
+
+    .content {
+      padding: 20px 24px 24px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    input,
+    textarea,
+    button {
+      font: inherit;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      color: var(--ink);
+      background: #ffffff;
+    }
+
+    textarea {
+      min-height: 160px;
+      resize: vertical;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.9rem;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+      flex-wrap: wrap;
+    }
+
+    .panel {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      background: #f8fbff;
+      display: grid;
+      gap: 10px;
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .task-list {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+      min-height: 54px;
+      padding: 8px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.85rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .run {
+      color: #ffffff;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    }
+
+    .reset {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+    }
+
+    .status {
+      min-height: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .error {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .output {
+      margin-top: 4px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #0b1220;
+      color: #dbeafe;
+      padding: 12px;
+      min-height: 120px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 820px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+
+      body {
+        padding: 12px;
+      }
+
+      .content,
+      .header {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="header">
+      <h1>Distributed Electric Truck JSON Validation</h1>
+      <p>Submit input to the control node and view the aggregated validation result.</p>
+    </section>
+
+    <section class="content">
+      <div class="row">
+        <div>
+          <label for="count">Validation Count</label>
+          <input id="count" type="number" min="1" value="3">
+        </div>
+        <div>
+          <label for="corr">Correlation Id (optional)</label>
+          <input id="corr" type="text" placeholder="demo-run">
+        </div>
+      </div>
+
+      <div>
+        <label for="jsonDoc">JSON Document</label>
+        <textarea id="jsonDoc">{"fleetId":"fleet-1"}</textarea>
+      </div>
+
+      <div>
+        <label for="jsonSchema">JSON Schema</label>
+        <textarea id="jsonSchema">{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["fleetId"],"properties":{"fleetId":{"type":"string"}}}</textarea>
+      </div>
+
+      <div class="panel">
+        <h2>Polymorphic Maintenance Task Builder</h2>
+        <div class="row">
+          <div>
+            <label for="taskType">Task Type</label>
+            <select id="taskType">
+              <option value="BRAKE_CHECK">BRAKE_CHECK</option>
+              <option value="COOLANT_LOOP_INSPECTION">COOLANT_LOOP_INSPECTION</option>
+            </select>
+          </div>
+          <div>
+            <label for="taskCode">Task Code</label>
+            <input id="taskCode" type="text" value="BRAKE_CHECK">
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="taskPriority">Priority</label>
+            <input id="taskPriority" type="number" min="1" max="5" value="2">
+          </div>
+          <div>
+            <label for="taskCompleted">Completed</label>
+            <select id="taskCompleted">
+              <option value="true">true</option>
+              <option value="false">false</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="taskNotes">Notes</label>
+          <input id="taskNotes" type="text" value="">
+        </div>
+
+        <div class="row" id="brakeFields">
+          <div>
+            <label for="axleNumber">Axle Number</label>
+            <input id="axleNumber" type="number" min="1" value="2">
+          </div>
+          <div>
+            <label for="padThicknessMm">Pad Thickness (mm)</label>
+            <input id="padThicknessMm" type="number" min="0.1" step="0.1" value="9.4">
+          </div>
+        </div>
+
+        <div class="row" id="coolantFields" style="display:none;">
+          <div>
+            <label for="coolantLoop">Coolant Loop</label>
+            <input id="coolantLoop" type="text" value="battery-pack-primary">
+          </div>
+          <div>
+            <label for="leakDetected">Leak Detected</label>
+            <select id="leakDetected">
+              <option value="false">false</option>
+              <option value="true">true</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="reset" id="addTaskBtn" type="button">Add Task To Builder</button>
+          <button class="reset" id="applyTasksBtn" type="button">Apply Tasks To JSON Document</button>
+          <button class="reset" id="summarizeBtn" type="button">Summarize Task Types</button>
+          <button class="reset" id="clearTasksBtn" type="button">Clear Builder Tasks</button>
+        </div>
+
+        <div class="task-list" id="taskList">No tasks in builder.</div>
+      </div>
+
+      <div class="actions">
+        <button class="run" id="runBtn" type="button">Run Distributed Validation</button>
+        <button class="reset" id="resetBtn" type="button">Reset</button>
+      </div>
+
+      <div class="status" id="status"></div>
+      <pre class="output" id="output">Result will appear here.</pre>
+    </section>
+  </main>
+
+  <script>
+    const jsonDocEl = document.getElementById("jsonDoc");
+    const schemaEl = document.getElementById("jsonSchema");
+    const countEl = document.getElementById("count");
+    const corrEl = document.getElementById("corr");
+    const statusEl = document.getElementById("status");
+    const outputEl = document.getElementById("output");
+    const runBtn = document.getElementById("runBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const taskTypeEl = document.getElementById("taskType");
+    const taskCodeEl = document.getElementById("taskCode");
+    const taskPriorityEl = document.getElementById("taskPriority");
+    const taskCompletedEl = document.getElementById("taskCompleted");
+    const taskNotesEl = document.getElementById("taskNotes");
+    const axleNumberEl = document.getElementById("axleNumber");
+    const padThicknessEl = document.getElementById("padThicknessMm");
+    const coolantLoopEl = document.getElementById("coolantLoop");
+    const leakDetectedEl = document.getElementById("leakDetected");
+    const brakeFieldsEl = document.getElementById("brakeFields");
+    const coolantFieldsEl = document.getElementById("coolantFields");
+    const addTaskBtn = document.getElementById("addTaskBtn");
+    const applyTasksBtn = document.getElementById("applyTasksBtn");
+    const summarizeBtn = document.getElementById("summarizeBtn");
+    const clearTasksBtn = document.getElementById("clearTasksBtn");
+    const taskListEl = document.getElementById("taskList");
+    const builtTasks = [];
+
+    function setStatus(message, isError) {
+      statusEl.textContent = message;
+      statusEl.className = isError ? "status error" : "status";
+    }
+
+    function setTaskTypeUi(type) {
+      const isBrake = type === "BRAKE_CHECK";
+      brakeFieldsEl.style.display = isBrake ? "grid" : "none";
+      coolantFieldsEl.style.display = isBrake ? "none" : "grid";
+      taskCodeEl.value = type;
+    }
+
+    function renderTaskList() {
+      if (builtTasks.length === 0) {
+        taskListEl.textContent = "No tasks in builder.";
+        return;
+      }
+
+      taskListEl.textContent = JSON.stringify(builtTasks, null, 2);
+    }
+
+    function buildTaskFromInputs() {
+      const type = taskTypeEl.value;
+      const task = {
+        taskType: type,
+        taskCode: taskCodeEl.value || type,
+        priority: Number(taskPriorityEl.value),
+        completed: taskCompletedEl.value === "true",
+        notes: taskNotesEl.value || ""
+      };
+
+      if (!Number.isInteger(task.priority) || task.priority < 1 || task.priority > 5) {
+        throw new Error("Task priority must be an integer between 1 and 5.");
+      }
+
+      if (type === "BRAKE_CHECK") {
+        task.axleNumber = Number(axleNumberEl.value);
+        task.padThicknessMm = Number(padThicknessEl.value);
+
+        if (!Number.isInteger(task.axleNumber) || task.axleNumber < 1) {
+          throw new Error("Axle number must be an integer greater than or equal to 1.");
+        }
+        if (!Number.isFinite(task.padThicknessMm) || task.padThicknessMm <= 0) {
+          throw new Error("Pad thickness must be a number greater than 0.");
+        }
+      } else {
+        task.coolantLoop = coolantLoopEl.value || "battery-pack-primary";
+        task.leakDetected = leakDetectedEl.value === "true";
+      }
+
+      return task;
+    }
+
+    function parseJsonDocumentOrThrow() {
+      const parsed = JSON.parse(jsonDocEl.value);
+      if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+        throw new Error("JSON document must be an object at the root.");
+      }
+      return parsed;
+    }
+
+    function summarizeTaskTypes(tasks) {
+      const counts = {};
+      for (const task of tasks) {
+        const key = task && task.taskType ? task.taskType : "UNKNOWN";
+        counts[key] = (counts[key] || 0) + 1;
+      }
+      return Object.entries(counts)
+        .sort((a, b) => a[0].localeCompare(b[0]))
+        .map(([type, count]) => `${type}=${count}`)
+        .join(", ");
+    }
+
+    taskTypeEl.addEventListener("change", () => {
+      setTaskTypeUi(taskTypeEl.value);
+    });
+
+    addTaskBtn.addEventListener("click", () => {
+      try {
+        builtTasks.push(buildTaskFromInputs());
+        renderTaskList();
+        setStatus("Task added to builder.", false);
+      } catch (error) {
+        setStatus(String(error.message || error), true);
+      }
+    });
+
+    clearTasksBtn.addEventListener("click", () => {
+      builtTasks.length = 0;
+      renderTaskList();
+      setStatus("Builder tasks cleared.", false);
+    });
+
+    applyTasksBtn.addEventListener("click", () => {
+      try {
+        const parsed = parseJsonDocumentOrThrow();
+
+        if (!parsed.maintenance || typeof parsed.maintenance !== "object" || Array.isArray(parsed.maintenance)) {
+          parsed.maintenance = {};
+        }
+
+        parsed.maintenance.tasks = builtTasks.slice();
+        jsonDocEl.value = JSON.stringify(parsed, null, 2);
+        setStatus("Applied builder tasks to jsonDocument. Ready to call control node.", false);
+      } catch (error) {
+        setStatus("Could not apply tasks: " + String(error.message || error), true);
+      }
+    });
+
+    summarizeBtn.addEventListener("click", () => {
+      try {
+        const parsed = parseJsonDocumentOrThrow();
+        const tasks = parsed.maintenance && Array.isArray(parsed.maintenance.tasks)
+          ? parsed.maintenance.tasks
+          : [];
+
+        const summary = tasks.length === 0
+          ? "No maintenance.tasks found in jsonDocument."
+          : "Task type summary: " + summarizeTaskTypes(tasks);
+
+        setStatus(summary, false);
+      } catch (error) {
+        setStatus("Could not summarize tasks: " + String(error.message || error), true);
+      }
+    });
+
+    runBtn.addEventListener("click", async () => {
+      const validationCount = Number(countEl.value);
+      const payload = {
+        jsonDocument: jsonDocEl.value,
+        jsonSchema: schemaEl.value,
+        validationCount,
+        correlationId: corrEl.value || null,
+        metadata: null
+      };
+
+      if (!Number.isInteger(validationCount) || validationCount < 1) {
+        setStatus("Validation count must be a positive integer.", true);
+        return;
+      }
+
+      runBtn.disabled = true;
+      setStatus("Calling control node...", false);
+      outputEl.textContent = "Waiting for response...";
+
+      try {
+        const response = await fetch("/distributed-validation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const text = await response.text();
+        let body;
+
+        try {
+          body = JSON.parse(text);
+        } catch {
+          body = text;
+        }
+
+        if (!response.ok) {
+          setStatus("Request failed with HTTP " + response.status + ".", true);
+          outputEl.textContent = typeof body === "string" ? body : JSON.stringify(body, null, 2);
+          return;
+        }
+
+        setStatus("Validation request completed.", false);
+        outputEl.textContent = JSON.stringify(body, null, 2);
+      } catch (error) {
+        setStatus("Network error while calling control node.", true);
+        outputEl.textContent = String(error);
+      } finally {
+        runBtn.disabled = false;
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      countEl.value = "3";
+      corrEl.value = "";
+      jsonDocEl.value = '{"fleetId":"fleet-1"}';
+      schemaEl.value = '{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","required":["fleetId"],"properties":{"fleetId":{"type":"string"}}}';
+      builtTasks.length = 0;
+      setTaskTypeUi("BRAKE_CHECK");
+      renderTaskList();
+      setStatus("", false);
+      outputEl.textContent = "Result will appear here.";
+    });
+
+    setTaskTypeUi(taskTypeEl.value);
+    renderTaskList();
+  </script>
+</body>
+</html>

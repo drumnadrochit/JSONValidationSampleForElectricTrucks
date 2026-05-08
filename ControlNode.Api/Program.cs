@@ -19,6 +19,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapGet("/health", () => Results.Ok(new { status = "Healthy", role = "control-node" }));
 
 app.MapPost("/distributed-validation", async (DistributedValidationRequest request, IDistributedValidationCoordinator coordinator, CancellationToken cancellationToken) =>

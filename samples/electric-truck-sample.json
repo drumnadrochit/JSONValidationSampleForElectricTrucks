@@ -108,16 +108,22 @@
     "nextServiceDueKm": 190000,
     "tasks": [
       {
+        "taskType": "BRAKE_CHECK",
         "taskCode": "BRAKE_CHECK",
         "priority": 2,
         "completed": true,
-        "notes": "Pads replaced on axle 2"
+        "notes": "Pads replaced on axle 2",
+        "axleNumber": 2,
+        "padThicknessMm": 9.4
       },
       {
+        "taskType": "COOLANT_LOOP_INSPECTION",
         "taskCode": "COOLANT_LOOP_INSPECTION",
         "priority": 1,
         "completed": false,
-        "notes": ""
+        "notes": "",
+        "coolantLoop": "battery-pack-primary",
+        "leakDetected": false
       }
     ]
   }

@@ -207,13 +207,43 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["taskCode", "priority", "completed", "notes"],
+            "required": ["taskType", "taskCode", "priority", "completed", "notes"],
             "properties": {
+              "taskType": {
+                "type": "string",
+                "enum": ["BRAKE_CHECK", "COOLANT_LOOP_INSPECTION"]
+              },
               "taskCode": { "type": "string" },
               "priority": { "type": "integer", "minimum": 1, "maximum": 5 },
               "completed": { "type": "boolean" },
-              "notes": { "type": "string" }
-            }
+              "notes": { "type": "string" },
+              "axleNumber": { "type": "integer", "minimum": 1 },
+              "padThicknessMm": { "type": "number", "exclusiveMinimum": 0 },
+              "coolantLoop": { "type": "string" },
+              "leakDetected": { "type": "boolean" }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "taskType": { "const": "BRAKE_CHECK" }
+                  }
+                },
+                "then": {
+                  "required": ["axleNumber", "padThicknessMm"]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "taskType": { "const": "COOLANT_LOOP_INSPECTION" }
+                  }
+                },
+                "then": {
+                  "required": ["coolantLoop", "leakDetected"]
+                }
+              }
+            ]
           }
         }
       }

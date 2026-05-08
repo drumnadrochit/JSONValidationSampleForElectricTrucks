@@ -33,3 +33,5 @@ C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\ControlNode.Api\o
 C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\ControlNode.Api\obj\Debug\net9.0\ControlNode.Api.pdb
 C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\ControlNode.Api\obj\Debug\net9.0\ControlNode.Api.genruntimeconfig.cache
 C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\ControlNode.Api\obj\Debug\net9.0\ref\ControlNode.Api.dll
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\ControlNode.Api\bin\Debug\net9.0\ControlNode.Api.staticwebassets.runtime.json
+C:\Users\mihlobil\source\repos\JSONValidationForElectricTrucks\ControlNode.Api\obj\Debug\net9.0\compressed\7adaxeyvf9-gyovn5vx9q.gz
