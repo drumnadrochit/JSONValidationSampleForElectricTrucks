@@ -1,3 +1,5 @@
+using Json.Schema;
+
 namespace ElectricTruckJsonValidator.Tests;
 
 public class ValidationApplicationTests
@@ -95,9 +97,71 @@ public class ValidationApplicationTests
 		}
 	}
 
+	[Fact]
+	public async Task RunAsync_WhenValidationSucceeds_DoesNotPrintIssues()
+	{
+		var jsonFilePath = CreateTempFile("{}");
+		var schemaFilePath = CreateTempFile("{}");
+
+		try
+		{
+			var issuePrinter = new FakeIssuePrinter();
+			var app = new ValidationApplication(new FakeValidator(CreateValidationResult("{}", "{}")), issuePrinter);
+			var args = CommandLineArguments.Valid(jsonFilePath, schemaFilePath);
+
+			using var consoleCapture = new ConsoleOutputCapture();
+			var exitCode = await app.RunAsync(args);
+
+			Assert.Equal(0, exitCode);
+			Assert.False(issuePrinter.WasCalled);
+		}
+		finally
+		{
+			File.Delete(schemaFilePath);
+			File.Delete(jsonFilePath);
+		}
+	}
+
+	[Fact]
+	public async Task RunAsync_WhenValidationFails_InvokesIssuePrinter()
+	{
+		const string schema = "{\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"type\":\"object\",\"required\":[\"fleetId\"],\"properties\":{\"fleetId\":{\"type\":\"string\"}}}";
+		const string json = "{\"fleetId\":123}";
+		var jsonFilePath = CreateTempFile("{}");
+		var schemaFilePath = CreateTempFile("{}");
+
+		try
+		{
+			var issuePrinter = new FakeIssuePrinter();
+			var app = new ValidationApplication(new FakeValidator(CreateValidationResult(schema, json)), issuePrinter);
+			var args = CommandLineArguments.Valid(jsonFilePath, schemaFilePath);
+
+			using var consoleCapture = new ConsoleOutputCapture();
+			var exitCode = await app.RunAsync(args);
+
+			Assert.Equal(1, exitCode);
+			Assert.True(issuePrinter.WasCalled);
+		}
+		finally
+		{
+			File.Delete(schemaFilePath);
+			File.Delete(jsonFilePath);
+		}
+	}
+
 	private static ValidationApplication CreateApplication()
 	{
 		return new ValidationApplication(new JsonSchemaValidator(), new EvaluationIssuePrinter());
+	}
+
+	private static EvaluationResults CreateValidationResult(string schemaText, string jsonText)
+	{
+		using var jsonDocument = System.Text.Json.JsonDocument.Parse(jsonText);
+		var schema = JsonSchema.FromText(schemaText);
+		return schema.Evaluate(jsonDocument.RootElement.Clone(), new EvaluationOptions
+		{
+			OutputFormat = OutputFormat.List
+		});
 	}
 
 	private static string CreateTempFile(string content)
@@ -127,6 +191,24 @@ public class ValidationApplicationTests
 		{
 			Console.SetOut(_original);
 			_writer.Dispose();
+		}
+	}
+
+	private sealed class FakeValidator(EvaluationResults result) : IJsonSchemaValidator
+	{
+		public Task<EvaluationResults> ValidateAsync(string jsonFilePath, string schemaFilePath)
+		{
+			return Task.FromResult(result);
+		}
+	}
+
+	private sealed class FakeIssuePrinter : IEvaluationIssuePrinter
+	{
+		public bool WasCalled { get; private set; }
+
+		public void Print(EvaluationResults results)
+		{
+			WasCalled = true;
 		}
 	}
 }

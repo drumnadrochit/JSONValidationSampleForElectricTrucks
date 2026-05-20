@@ -5,7 +5,7 @@ namespace ElectricTruckJsonValidator;
 /// <summary>
 /// Prints recursive schema evaluation errors in a readable list format.
 /// </summary>
-public sealed class EvaluationIssuePrinter
+public sealed class EvaluationIssuePrinter : IEvaluationIssuePrinter
 {
 	/// <summary>
 	/// Writes all errors from the current evaluation node and its descendants.

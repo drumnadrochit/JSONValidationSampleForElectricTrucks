@@ -5,16 +5,16 @@ namespace ElectricTruckJsonValidator;
 /// </summary>
 public sealed class ValidationApplication
 {
-	private readonly JsonSchemaValidator _validator;
-	private readonly EvaluationIssuePrinter _issuePrinter;
+	private readonly IJsonSchemaValidator _validator;
+	private readonly IEvaluationIssuePrinter _issuePrinter;
 
 	/// <summary>
 	/// Creates an application coordinator with explicit dependencies.
 	/// </summary>
-	public ValidationApplication(JsonSchemaValidator validator, EvaluationIssuePrinter issuePrinter)
+	public ValidationApplication(IJsonSchemaValidator validator, IEvaluationIssuePrinter issuePrinter)
 	{
-		_validator = validator;
-		_issuePrinter = issuePrinter;
+		_validator = validator ?? throw new ArgumentNullException(nameof(validator));
+		_issuePrinter = issuePrinter ?? throw new ArgumentNullException(nameof(issuePrinter));
 	}
 
 	/// <summary>

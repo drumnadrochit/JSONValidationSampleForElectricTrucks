@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gTZyRiE5L4Q=",
+  "dgSpecHash": "jw0VLEn0w9s=",
   "success": true,
-  "projectFilePath": "C:\\Users\\mihlobil\\source\\repos\\JSONValidationForElectricTrucks\\ElectricTruckJsonValidator.Tests\\ElectricTruckJsonValidator.Tests.csproj",
+  "projectFilePath": "C:\\Users\\mihlobil\\source\\repos\\JSONValidationSampleForElectricTrucks - Copy\\ElectricTruckJsonValidator.Tests\\ElectricTruckJsonValidator.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mihlobil\\.nuget\\packages\\coverlet.collector\\6.0.2\\coverlet.collector.6.0.2.nupkg.sha512",
     "C:\\Users\\mihlobil\\.nuget\\packages\\humanizer.core\\3.0.10\\humanizer.core.3.0.10.nupkg.sha512",

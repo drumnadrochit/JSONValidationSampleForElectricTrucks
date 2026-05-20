@@ -6,7 +6,7 @@ namespace ElectricTruckJsonValidator;
 /// <summary>
 /// Loads JSON and JSON schema text, then evaluates the document against the schema.
 /// </summary>
-public sealed class JsonSchemaValidator
+public sealed class JsonSchemaValidator : IJsonSchemaValidator
 {
 	/// <summary>
 	/// Executes schema validation using JsonSchema.Net list output for detailed errors.
